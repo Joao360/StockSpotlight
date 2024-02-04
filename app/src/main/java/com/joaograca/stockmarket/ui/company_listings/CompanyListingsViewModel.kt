@@ -36,7 +36,7 @@ class CompanyListingsViewModel @Inject constructor(
     val uiState = combine(
         localState, companyListings
     ) { localState, companyListings ->
-        CompanyListingsLocalUiState(
+        CompanyListingsUiState(
             companies = companyListings,
             isLoading = localState.isLoading,
             searchQuery = localState.searchQuery
@@ -44,7 +44,7 @@ class CompanyListingsViewModel @Inject constructor(
     }
         .catch {
             emit(
-                CompanyListingsLocalUiState(
+                CompanyListingsUiState(
                     companies = emptyList(),
                     isLoading = localState.value.isLoading,
                     searchQuery = localState.value.searchQuery
@@ -54,7 +54,7 @@ class CompanyListingsViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = CompanyListingsLocalUiState(isLoading = true)
+            initialValue = CompanyListingsUiState(isLoading = true)
         )
 
     init {

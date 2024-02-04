@@ -7,7 +7,7 @@ data class CompanyListingsLocalState(
     val searchQuery: String = ""
 )
 
-data class CompanyListingsLocalUiState(
+data class CompanyListingsUiState(
     val companies: List<CompanyListing> = emptyList(),
     val isLoading: Boolean = false,
     val searchQuery: String = ""

@@ -49,7 +49,7 @@ fun CompanyListingsRoute(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CompanyListingsScreen(
-    uiState: CompanyListingsLocalUiState,
+    uiState: CompanyListingsUiState,
     pullRefreshState: PullRefreshState,
     onSearchQueryChange: (String) -> Unit,
     onClickCompany: (CompanyListing) -> Unit
@@ -63,9 +63,7 @@ fun CompanyListingsScreen(
         )
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .pullRefresh(pullRefreshState)
+            modifier = Modifier.fillMaxSize()
         ) {
             OutlinedTextField(
                 value = uiState.searchQuery,
