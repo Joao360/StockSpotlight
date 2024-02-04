@@ -4,13 +4,11 @@ import com.joaograca.stockmarket.domain.model.CompanyListing
 
 data class CompanyListingsLocalState(
     val isLoading: Boolean = false,
-    val isRefreshing: Boolean = false,
     val searchQuery: String = ""
 )
 
 data class CompanyListingsLocalUiState(
     val companies: List<CompanyListing> = emptyList(),
     val isLoading: Boolean = false,
-    val isRefreshing: Boolean = false,
     val searchQuery: String = ""
 )

@@ -6,6 +6,7 @@ import com.joaograca.stockmarket.domain.repository.StockRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class CompanyListingsViewModel @Inject constructor(
     private val repository: StockRepository
 ) : ViewModel() {
+    private var refreshJob: Job? = null
     private val localState = MutableStateFlow(CompanyListingsLocalState())
 
     private val companyListings = localState.map { it.searchQuery }
@@ -37,7 +39,6 @@ class CompanyListingsViewModel @Inject constructor(
         CompanyListingsLocalUiState(
             companies = companyListings,
             isLoading = localState.isLoading,
-            isRefreshing = localState.isRefreshing,
             searchQuery = localState.searchQuery
         )
     }
@@ -46,7 +47,6 @@ class CompanyListingsViewModel @Inject constructor(
                 CompanyListingsLocalUiState(
                     companies = emptyList(),
                     isLoading = localState.value.isLoading,
-                    isRefreshing = localState.value.isRefreshing,
                     searchQuery = localState.value.searchQuery
                 )
             )
@@ -57,14 +57,19 @@ class CompanyListingsViewModel @Inject constructor(
             initialValue = CompanyListingsLocalUiState(isLoading = true)
         )
 
+    init {
+        refresh()
+    }
+
     fun refresh() {
-        viewModelScope.launch {
-            localState.update { it.copy(isRefreshing = true) }
+        refreshJob?.cancel()
+        refreshJob = viewModelScope.launch {
+            localState.update { it.copy(isLoading = true) }
 
             repository.refreshCompanyListings()
                 .onFailure { it.printStackTrace() }
 
-            localState.update { it.copy(isRefreshing = false) }
+            localState.update { it.copy(isLoading = false) }
         }
     }
 
