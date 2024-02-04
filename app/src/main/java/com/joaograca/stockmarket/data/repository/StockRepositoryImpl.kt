@@ -26,7 +26,7 @@ class StockRepositoryImpl @Inject constructor(
         dao.insertCompanyListings(companyListings.map { it.toEntity() })
     }
 
-    override suspend fun getCompanyListings(query: String): Flow<List<CompanyListing>> {
+    override fun getCompanyListings(query: String): Flow<List<CompanyListing>> {
         return dao.searchCompanyListing(query)
             .map { entities ->
                 entities.map { it.toDomain() }

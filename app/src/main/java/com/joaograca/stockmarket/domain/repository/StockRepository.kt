@@ -7,7 +7,7 @@ interface StockRepository {
 
     suspend fun refreshCompanyListings(): Result<Unit>
 
-    suspend fun getCompanyListings(
+    fun getCompanyListings(
         query: String
     ): Flow<List<CompanyListing>>
 }

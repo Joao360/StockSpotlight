@@ -12,7 +12,7 @@ interface StockDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCompanyListings(entities: List<CompanyListingEntity>)
 
-    @Query("DELETE * FROM companylistingentity")
+    @Query("DELETE FROM companylistingentity")
     suspend fun clearCompanyListings()
 
     @Query(
@@ -23,5 +23,5 @@ interface StockDao {
                 UPPER(:query) == symbol
         """
     )
-    suspend fun searchCompanyListing(query: String): Flow<List<CompanyListingEntity>>
+    fun searchCompanyListing(query: String): Flow<List<CompanyListingEntity>>
 }
