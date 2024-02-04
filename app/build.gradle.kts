@@ -6,6 +6,8 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+val stockApiKey: String = providers.gradleProperty("stock_api_key").get()
+
 android {
     namespace = "com.joaograca.stockmarket"
     compileSdk = 34
@@ -30,6 +32,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String", "STOCK_API_KEY", "\"$stockApiKey\"")
+        }
+
+        debug {
+            buildConfigField("String", "STOCK_API_KEY", "\"$stockApiKey\"")
         }
     }
     compileOptions {
@@ -41,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -65,9 +74,6 @@ dependencies {
 
     // OpenCSV
     implementation("com.opencsv:opencsv:5.5.2")
-
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
 
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.50")
