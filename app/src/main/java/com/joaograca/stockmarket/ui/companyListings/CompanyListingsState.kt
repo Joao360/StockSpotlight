@@ -1,4 +1,4 @@
-package com.joaograca.stockmarket.ui.company_listings
+package com.joaograca.stockmarket.ui.companyListings
 
 import com.joaograca.stockmarket.domain.model.CompanyListing
 

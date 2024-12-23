@@ -1,4 +1,4 @@
-package com.joaograca.stockmarket.ui.company_listings
+package com.joaograca.stockmarket.ui.companyListings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

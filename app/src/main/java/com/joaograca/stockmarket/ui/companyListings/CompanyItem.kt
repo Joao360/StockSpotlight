@@ -1,4 +1,4 @@
-package com.joaograca.stockmarket.ui.company_listings
+package com.joaograca.stockmarket.ui.companyListings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
