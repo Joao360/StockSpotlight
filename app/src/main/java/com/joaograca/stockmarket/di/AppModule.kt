@@ -25,12 +25,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCompanyListingsParser(): CSVParser<CompanyListing> {
-        return CompanyListingsParser(Dispatchers.IO)
-    }
-
-    @Provides
-    @Singleton
     fun provideStockApi(): StockApi {
         return Retrofit.Builder()
             .baseUrl("https://alphavantage.co")
