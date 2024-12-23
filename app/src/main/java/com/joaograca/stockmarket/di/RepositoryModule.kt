@@ -23,7 +23,6 @@ interface RepositoryModule {
     fun bindRepository(impl: StockRepositoryImpl): StockRepository
 
     companion object {
-
         @Provides
         @Singleton
         fun provideCompanyListingsParser(): CSVParser<CompanyListing> {
