@@ -20,10 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joaograca.stockmarket.domain.model.CompanyListing
+import com.joaograca.stockmarket.ui.theme.StockSpotlightTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -96,5 +98,29 @@ fun CompanyListingsScreen(
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Preview(showBackground = true)
+@Composable
+private fun PreviewCompanyListing() {
+    StockSpotlightTheme {
+        CompanyListingsScreen(
+            uiState = CompanyListingsUiState(
+                companies = listOf(
+                    CompanyListing(
+                        symbol = "AAPL",
+                        name = "Apple Inc.",
+                        exchange = "NASDAQ",
+                    )
+                ),
+                isLoading = false,
+                searchQuery = ""
+            ),
+            pullRefreshState = rememberPullRefreshState(refreshing = false, onRefresh = { }),
+            onSearchQueryChange = {},
+            onClickCompany = {}
+        )
     }
 }
