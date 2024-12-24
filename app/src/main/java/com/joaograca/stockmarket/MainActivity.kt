@@ -6,20 +6,17 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.joaograca.stockmarket.ui.companyInfo.CompanyInfoRoute
+import com.joaograca.stockmarket.ui.companyInfo.CompanyInfoScreen
 import com.joaograca.stockmarket.ui.companyListings.CompanyListingsRoute
-import com.joaograca.stockmarket.ui.theme.DarkBlue
 import com.joaograca.stockmarket.ui.theme.DarkColorScheme
 import com.joaograca.stockmarket.ui.theme.StockSpotlightTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +40,14 @@ class MainActivity : ComponentActivity() {
                         startDestination = "company_listings"
                     ) {
                         composable(route = "company_listings") {
-                            CompanyListingsRoute(onClickCompany = {})
+                            CompanyListingsRoute(
+                                onClickCompany = {
+                                    navController.navigate(CompanyInfoRoute(it.symbol))
+                                }
+                            )
+                        }
+                        composable<CompanyInfoRoute> {
+                            CompanyInfoScreen()
                         }
                     }
                 }

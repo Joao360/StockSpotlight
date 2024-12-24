@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joaograca.stockmarket.domain.model.IntradayInfo
+import com.joaograca.stockmarket.ui.PreviewData
 import com.joaograca.stockmarket.ui.theme.StockSpotlightTheme
 import java.time.LocalDateTime
 import kotlin.math.round
@@ -69,7 +70,7 @@ fun StockChart(
         }
 
         val priceStep = (upperValue - lowerValue) / 5f
-        (1..5).forEach { i ->
+        (0..4).forEach { i ->
             drawContext.canvas.nativeCanvas.apply {
                 drawText(
                     /* text = */ round(lowerValue + priceStep * i).toString(),
@@ -140,48 +141,7 @@ private fun PreviewStockChart() {
     StockSpotlightTheme {
         StockChart(
             modifier = Modifier.fillMaxSize(),
-            infos = listOf(
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T09:00:00"),
-                    close = 100.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T10:00:00"),
-                    close = 110.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T11:00:00"),
-                    close = 90.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T12:00:00"),
-                    close = 130.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T13:00:00"),
-                    close = 100.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T14:00:00"),
-                    close = 99.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T15:00:00"),
-                    close = 101.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T16:00:00"),
-                    close = 105.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T17:00:00"),
-                    close = 102.0
-                ),
-                IntradayInfo(
-                    date = LocalDateTime.parse("2021-01-01T18:00:00"),
-                    close = 110.0
-                ),
-            )
+            infos = PreviewData.intradayInfos
         )
     }
 }

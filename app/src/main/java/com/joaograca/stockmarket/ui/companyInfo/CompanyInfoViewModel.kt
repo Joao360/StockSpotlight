@@ -70,7 +70,7 @@ class CompanyInfoViewModel @Inject constructor(
                 intraday.isSuccess -> {
                     _state.update {
                         it.copy(
-                            stockInfo = intraday.getOrThrow(),
+                            stockInfos = intraday.getOrThrow(),
                             isLoading = false,
                             errorMessage = null
                         )
