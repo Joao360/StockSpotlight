@@ -1,24 +1,18 @@
 package com.joaograca.stockmarket.ui.companyListings
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.PullRefreshState
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +21,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joaograca.stockmarket.domain.model.CompanyListing
 import com.joaograca.stockmarket.ui.theme.StockSpotlightTheme
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CompanyListingsRoute(
     viewModel: CompanyListingsViewModel = hiltViewModel(),
@@ -35,35 +28,23 @@ fun CompanyListingsRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = uiState.isLoading,
-        onRefresh = viewModel::refresh
-    )
-
     CompanyListingsScreen(
         uiState = uiState,
-        pullRefreshState = pullRefreshState,
         onSearchQueryChange = viewModel::onSearchQueryChange,
-        onClickCompany = onClickCompany
+        onClickCompany = onClickCompany,
+        onRefresh = viewModel::refresh
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompanyListingsScreen(
     uiState: CompanyListingsUiState,
-    pullRefreshState: PullRefreshState,
     onSearchQueryChange: (String) -> Unit,
-    onClickCompany: (CompanyListing) -> Unit
+    onClickCompany: (CompanyListing) -> Unit,
+    onRefresh: () -> Unit
 ) {
-    Box(modifier = Modifier.pullRefresh(pullRefreshState)) {
-        PullRefreshIndicator(
-            refreshing = uiState.isLoading,
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter),
-            contentColor = MaterialTheme.colorScheme.primary
-        )
-
+    PullToRefreshBox(isRefreshing = uiState.isLoading, onRefresh = onRefresh) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -101,8 +82,7 @@ fun CompanyListingsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun PreviewCompanyListing() {
     StockSpotlightTheme {
@@ -118,9 +98,9 @@ private fun PreviewCompanyListing() {
                 isLoading = false,
                 searchQuery = ""
             ),
-            pullRefreshState = rememberPullRefreshState(refreshing = false, onRefresh = { }),
             onSearchQueryChange = {},
-            onClickCompany = {}
+            onClickCompany = {},
+            onRefresh = { }
         )
     }
 }
